@@ -10,7 +10,7 @@ export default function ScreenDisplay() {
 
   const revealsToShow = useMemo(() => {
     if (!rankings.length) return [];
-    const sortedByPos = [...rankings].sort((a, b) => b.pos - a.pos);
+    const sortedByPos = [...rankings].sort((a, b) => a.pos - b.pos);
     return sortedByPos.slice(0, state.revealCount);
   }, [rankings, state.revealCount]);
 
