@@ -1,0 +1,38 @@
+# Dependencies
+node_modules/
+
+# Environment variables (secrets)
+.env
+.env.*
+!.env.example
+
+# Database (SQLite — 영속성 불필요, 의도적으로 제외)
+*.db
+*.sqlite
+*.sqlite3
+
+# Build output
+dist/
+dist-ssr/
+build/
+coverage/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+logs/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/*
+!.vscode/extensions.json
+.idea
+
+# Claude Code local-only settings
+.claude/settings.local.json
+
+# 루트에 흩어진 개발용 스크린샷
+/*.png
