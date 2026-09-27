@@ -4,10 +4,8 @@
 
 ## 🌐 배포 URL
 
-배포 후 여기에 URL을 기입합니다.
-
-- **백엔드 API**: (배포 후 입력)
-- **프론트엔드**: (배포 후 입력)
+- **백엔드 API**: https://hackathon-scores-backend.onrender.com
+- **프론트엔드**: https://hackathon-scores-frontend.onrender.com
 
 ## 📋 주요 기능
 
