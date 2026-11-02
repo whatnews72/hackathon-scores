@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 import { useHackathonSocket } from '../hooks/useHackathonSocket';
 import { rebuildRoster, ranked, stats } from '../lib/hackathon';
+import LeaderboardTable from '../components/Results/LeaderboardTable';
 
 export default function ScreenDisplay() {
   const { state, scores } = useHackathonSocket();
@@ -68,33 +69,16 @@ export default function ScreenDisplay() {
         <h1 style={{ fontSize: '2rem' }}>🏆 최종 순위</h1>
       </div>
 
-      <div className="board">
-        {rankings.map(rank => {
-          const isRevealed = revealedIds.has(rank.team);
-          const isFirst = rank.pos === 1;
-
-          return (
-            <div
-              key={rank.team}
-              className={`rank ${isFirst ? 'first' : ''} ${!isRevealed ? 'hidden' : ''}`}
-              style={{
-                opacity: isRevealed ? 1 : 0.3,
-                filter: isRevealed ? 'blur(0px)' : 'blur(4px)',
-              }}
-            >
-              <div className="pos">
-                {rank.pos === 1 ? '🥇' : rank.pos === 2 ? '🥈' : rank.pos === 3 ? '🥉' : rank.pos}
-              </div>
-              <div className="name" style={{ marginTop: '0.5rem' }}>
-                {rank.team}팀 {rank.team in state.teams && state.teams[rank.team] ? `(${state.teams[rank.team]})` : ''}
-              </div>
-              <div className="score">{rank.avg.toFixed(1)}점</div>
-              <div style={{ marginTop: '1rem', fontSize: '0.75rem', color: 'var(--fg2)' }}>
-                제출: {rank.n}명
-              </div>
-            </div>
-          );
-        })}
+      <div style={{ width: '100%', maxWidth: '960px', margin: '0 auto' }}>
+        <LeaderboardTable
+          rows={rankings}
+          teams={state.teams}
+          projects={state.projects}
+          title={null}
+          size="lg"
+          sortable={false}
+          isHidden={r => !revealedIds.has(r.team)}
+        />
       </div>
 
       {state.revealCount > 0 && (

@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 import { useHackathonSocket } from '../hooks/useHackathonSocket';
-import { rebuildRoster, ranked, CRITERIA, revealTotal } from '../lib/hackathon';
+import { rebuildRoster, ranked, revealTotal } from '../lib/hackathon';
+import LeaderboardTable from '../components/Results/LeaderboardTable';
 
 export default function FinalResults() {
   const { state, scores } = useHackathonSocket();
@@ -28,44 +29,14 @@ export default function FinalResults() {
         </p>
 
         {scoredRankings.length > 0 ? (
-          <div style={{ overflowX: 'auto', marginBottom: '1rem' }}>
-            <table style={{ minWidth: '100%', fontSize: '0.75rem' }}>
-              <thead>
-                <tr>
-                  <th style={{ padding: '0.5rem 0.25rem', textAlign: 'center', minWidth: '30px' }}>순위</th>
-                  <th style={{ padding: '0.5rem 0.25rem', textAlign: 'left', minWidth: '80px' }}>팀명</th>
-                  <th style={{ padding: '0.5rem 0.25rem', textAlign: 'right', minWidth: '40px' }}>총점</th>
-                  {CRITERIA.map(c => (
-                    <th key={c.k} style={{ padding: '0.5rem 0.25rem', textAlign: 'right', minWidth: '35px' }}>
-                      {c.name.substring(0, 2)}
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {scoredRankings.map(rank => (
-                  <tr key={rank.team}>
-                    <td style={{ padding: '0.5rem 0.25rem', fontWeight: 'bold', textAlign: 'center' }}>
-                      {rank.pos === 1 ? '🥇' : rank.pos === 2 ? '🥈' : rank.pos === 3 ? '🥉' : rank.pos}
-                    </td>
-                    <td style={{ padding: '0.5rem 0.25rem', textAlign: 'left', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: '100px' }}>
-                      {rank.team}팀{' '}
-                      {rank.team in state.teams && state.teams[rank.team]
-                        ? `(${state.teams[rank.team]})`
-                        : ''}
-                    </td>
-                    <td style={{ padding: '0.5rem 0.25rem', textAlign: 'right', fontWeight: '600' }}>
-                      {rank.avg.toFixed(1)}
-                    </td>
-                    {CRITERIA.map(c => (
-                      <td key={c.k} style={{ padding: '0.5rem 0.25rem', textAlign: 'right' }}>
-                        {rank.crit[c.k] ? rank.crit[c.k].toFixed(1) : '-'}
-                      </td>
-                    ))}
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+          <div style={{ marginBottom: '1rem' }}>
+            <LeaderboardTable
+              rows={scoredRankings}
+              teams={state.teams}
+              projects={state.projects}
+              title={null}
+              showCriteria
+            />
           </div>
         ) : (
           <p style={{ textAlign: 'center', color: 'var(--fg2)', padding: '2rem 0' }}>
